@@ -126,6 +126,7 @@ func New(orig pixel.Vec, atlas *Atlas) *Text {
 		atlas:      atlas,
 		mat:        pixel.IM,
 		col:        pixel.Alpha(1),
+		anchor:     pixel.Anchor{2, 2}, // unaligned
 	}
 
 	txt.glyph.SetLen(6)
@@ -182,6 +183,10 @@ func (txt *Text) BoundsOf(s string) pixel.Rect {
 	}
 
 	return bounds
+}
+
+func (txt *Text) Unaligned() {
+	txt.anchor.X = 2
 }
 
 // AlignedTo returns the text moved by the given anchor.
@@ -253,8 +258,10 @@ func (txt *Text) DrawColorMask(t pixel.Target, matrix pixel.Matrix, mask color.C
 		txt.dirty = true
 	}
 
-	offset := txt.Orig.Sub(txt.Bounds().Max.Add(txt.Bounds().AnchorPos(txt.anchor.Opposite())))
-	txt.mat = pixel.IM.Moved(offset).Chained(txt.mat)
+	if txt.anchor.X < 2 {
+		offset := txt.Orig.Sub(txt.Bounds().Max.Add(txt.Bounds().AnchorPos(txt.anchor.Opposite())))
+		txt.mat = pixel.IM.Moved(offset).Chained(txt.mat)
+	}
 
 	if mask == nil {
 		mask = pixel.Alpha(1)
