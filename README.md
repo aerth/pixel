@@ -1,8 +1,8 @@
 ## using this fork
 
-add this line to *go.mod* file:
+add this line to *go.mod* file (check releases for newer tag):
 
-`replace github.com/faiface/pixel => github.com/aerth/pixel v0.12.0`
+`replace github.com/faiface/pixel => github.com/aerth/pixel v0.12.3`
 
 <p align="center"><img src="logo/LOGOTYPE-HORIZONTAL-BLUE.png"></p>
 
